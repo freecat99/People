@@ -14,6 +14,9 @@ import userRouter from './routes/userRouter.js'
 import postRouter from './routes/postRouter.js'
 import { verifyToken } from './middleware/authMiddleware.js'
 import { createPost } from './controllers/postController.js'
+import User from './models/userModel.js'
+import Post from './models/postModel.js'
+import { users, posts } from './data/index.js'
 
 //Configurations
 const __filename = fileURLToPath(import.meta.url);
@@ -59,6 +62,10 @@ mongoose.connect(process.env.MONGO_CONN)
     .then(()=>{
         app.listen(PORT, ()=>{
             console.log(`server started at ${PORT}`)
+
+            //run only once or duplicate
+            //User.insertMany(users);
+            //Post.insertMany(posts);
         })
     }).catch((error)=>{
         console.log(`connection refused, ${error}`)
