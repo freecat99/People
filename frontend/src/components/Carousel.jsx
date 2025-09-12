@@ -3,19 +3,9 @@ import React from 'react'
 function Carousel() {
   return (
     <div className='carousel'>
-      <div className="carousel-track">
-        {/*Original set*/}
-        <img src="/assets/vijay.png" alt="Vijay" />
-        <img src="/assets/nitin.png" alt="Nitin" />
-        <img src="/assets/tashi.png" alt="Tashi" />
-        <img src="/assets/arup.png" alt="Arup" />
-
-        {/*Duplicate set for seamless looping*/}
-        <img src="/assets/vijay.png" alt="Vijay copy" />
-        <img src="/assets/nitin.png" alt="Nitin copy" />
-        <img src="/assets/tashi.png" alt="Tashi copy" />
-        <img src="/assets/arup.png" alt="Arup copy" />
-      </div>
+        <img src="/assets/vijay.png" alt="Vijay" className='card1'/>
+        <img src="/assets/nitin.png" alt="Nitin" className='card2' />
+        <img src="/assets/tashi.png" alt="Tashi" className='card3' />
     </div>
   )
 }
