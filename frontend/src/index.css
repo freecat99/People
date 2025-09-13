@@ -14,8 +14,17 @@ body, html{
     height: 100%;
 }
 
+body{
+    background-image: url(../public/assets/aboutbg.png);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
 
 .navbar{
+    width: 100vw;
     z-index: 100;
     position: sticky;
     top: 0;
@@ -57,7 +66,6 @@ body, html{
 
 .about{
     height: 85vh;
-    background-image: url(../public/assets/aboutbg.png);
     
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
     padding: 2rem;
@@ -171,4 +179,72 @@ body, html{
     margin: .5rem;
     height: 20px;
     aspect-ratio: 1;
+}
+
+.container{
+    padding: 2rem;
+    width: 400px;
+    background-color: black;
+    font-size: 1rem;
+    color: white;
+
+    display: flex;
+    justify-content: center;
+}
+
+.container h2{
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+.container div input{
+    font-size: 1rem;
+    margin: 1rem 0;
+    border-radius: 10px;
+    padding: .5rem;
+    box-shadow: rgba(151, 151, 151, 0.4) 0px 5px;
+}
+
+.container div input:focus{
+    background-color: whitesmoke;
+    box-shadow: none;
+    transform: translateY(5px);
+
+    outline: none;
+}
+
+.container div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: .4rem;
+}
+
+.container button{
+    background-color: #2a7aef;
+    width: 100%;                        
+    font-size: 1rem;
+    padding: .51rem;
+    margin: .5rem;
+    border-radius: 10px;
+    color: white;
+    font-weight: 600;
+    border: none;
+}
+
+.container button:hover{
+    background-color: rgb(62, 130, 233);
+    cursor: pointer;
+}
+
+.container form a{
+    text-decoration: none;  
+    color: #c7c7c7;
+    cursor: pointer;
+    margin: 1rem;
+}
+
+.container form a:hover{
+    color: white;
 }

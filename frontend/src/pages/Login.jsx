@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import{ToastContainer} from 'react-toastify'
+import { FaEnvelope, FaLock } from "react-icons/fa"
 
 function Login() {
   const [userInfo, setUserInfo] = useState({
@@ -16,27 +18,30 @@ function Login() {
     e.preventDefault();
     const {email, password} = userInfo;
     if(!email || !password){
+      console.log("enter email password")
     }
     try {
       
     } catch (error) {
-      res.status()
+      //correct
     }
   }
   return (
     <div className='container'>
-      <form>
+      <form onSubmit={handleSubmit}>
+        <h2>Welcome Back!</h2>
         <div className="entity">
-          <label htmlFor="email">Email</label>
-          <input type='email' id='email' name='email' required onChange={handleChange}/>
+          <label htmlFor="email"><FaEnvelope className='icon'/></label>
+          <input type='email' id='email' name='email' onChange={handleChange} placeholder='Email' required/>
         </div>
         <div className="entity">
-          <label htmlFor="password">Password</label>
-          <input type='password' id='password' name='password' required onChange={handleChange}/>
+          <label htmlFor="password"><FaLock className='icon' /></label>
+          <input type='password' id='password' name='password' onChange={handleChange} placeholder='Password' required/>
         </div>
-        <button onClick={handleSubmit}>Login</button>
+        <button type='submit'>Login</button>
+        <span><a href='/register'>Don't have an account?</a></span>
       </form>
-      <p><a href='/register'>Don't have an account?</a></p>
+      <ToastContainer/>
     </div>
   )
 }

@@ -4,7 +4,7 @@ import { verifyToken } from '../middleware/authMiddleware.js';
 
 const postRouter = express.Router();
 
-//read
+//read- verify token to get that the user is logged in before showing any posts
 postRouter.get('/', verifyToken, getFeedPosts);
 postRouter.get('/:userId/posts', verifyToken, getUserPosts);
 
