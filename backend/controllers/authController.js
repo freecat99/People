@@ -8,12 +8,12 @@ export const register = async(req, res)=>{
     try {
         const {firstName, lastName, email, password, picturePath, friends, location, occupation} = req.body;
         if(!firstName || !lastName || !email|| !password){
-            return res.json({"message":"fields necessary"});
+            return res.json({message:"fields necessary", success:false});
         }
 
         const user = await User.findOne({email});
         if(user){
-            return res.json({"message":"email already registered"});
+            return res.json({"message":"email already registered", success:false});
         }
 
         const salt = await bcrypt.genSalt();
@@ -25,11 +25,11 @@ export const register = async(req, res)=>{
         const savedUser = await newUser.save();
         res.status(201).json({
             "message": "user registered",
-            savedUser
+            savedUser, success:true
         })
 
     } catch (error) {
-        res.status(500).json({"message":error.message})
+        res.status(500).json({"message":error.message, success:false})
     }
 }
 
@@ -39,29 +39,29 @@ export const login = async(req, res)=>{
     try {
         const {email, password} = req.body;
         if(!email|| !password){
-            return res.json({"message":"all fields necessary"});
+            return res.json({"message":"all fields necessary", success:false});
         }
 
         const user = await User.findOne({email});
         if(!user){
-            return res.status(404).json({"message":"email not registered"});
+            return res.status(404).json({"message":"email not registered", success:false});
         }
         
         const isMatch = await bcrypt.compare(password, user.password);
         
         if(!isMatch){
-            return res.status(401).json({"message":"wrong password"});
+            return res.status(401).json({"message":"wrong password", success:false});
         }
 
-        const token = jwt.sign({id:user._id}, process.env.JWT_SECRET);
+        const token = jwt.sign({id:user._id}, process.env.JWT_SECRET, {expiresIn:'24h'});
         delete user.password;
 
         res.status(200).json({
             "message": "user logged",
-            token
+            token, success:true
         })
 
     } catch (error) {
-        res.status(500).json({"message":error.message})
+        res.status(500).json({"message":error.message, success:false})
     }
 }
