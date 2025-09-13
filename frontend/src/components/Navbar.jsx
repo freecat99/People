@@ -11,8 +11,8 @@ function Navbar() {
         <p>People - theSocialApp</p>
       </div>
       <div className="right">
-        <button onClick={()=>navigate('/home')}>About Us</button>
-        <button onClick={()=>navigate('/home')}>Contact</button>
+        <button onClick={()=>navigate('/login')}>Login</button>
+        <button onClick={()=>navigate('/register')}>Register</button>
       </div>
     </div>
   )
