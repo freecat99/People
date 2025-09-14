@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import {useNavigate} from 'react-router-dom'
 import { FaEnvelope, FaLock, FaAlignJustify , FaSuitcase, FaLocationArrow    } from "react-icons/fa"
+import { IoPersonCircle     } from "react-icons/io5"
 import {Toaster} from 'sonner'
 import { handleFailure, handleSuccess } from '../utils'
 
@@ -25,6 +26,20 @@ function Register() {
   }
   const handleSubmit = async(e)=>{
     e.preventDefault();
+
+    const formData = new FormData();
+
+    // Append state fields
+    for (const key in userInfo) {
+      formData.append(key, userInfo[key]);
+    }
+    const fileInput = document.getElementById("avatar");
+    if (fileInput && fileInput.files[0]) {
+      formData.append("avatar", fileInput.files[0]);
+    }
+
+
+    console.log(userInfo);
     const {email, password, firstName, lastName} = userInfo;
     if(!email || !password || !firstName || !lastName){
       return handleFailure("all fields required")
@@ -33,10 +48,7 @@ function Register() {
       const url = "http://localhost:1601/auth/register";
       const response = await fetch(url, {
         method: 'POST',
-        headers: {
-          'Content-Type':'application/json',
-        },
-        body: JSON.stringify(userInfo)
+        body: formData
       })
       const result = await response.json();
       console.log(result);
@@ -46,7 +58,7 @@ function Register() {
         handleSuccess(message);
         setTimeout(()=>{
           navigate('/login')
-        },2000);
+        },2000); 
 
       }else if(error){
         handleFailure(error.details[0].message);
@@ -65,15 +77,15 @@ function Register() {
   return (
     <>
     <div className='container'>
-      <form onSubmit={handleSubmit}>
+      <form encType='multipart/form-data' onSubmit={handleSubmit}>
         <h2>Welcome Back!</h2>
         <div className="entity">
-          <label htmlFor="fname"><FaAlignJustify   className='icon' /></label>
-          <input type='text' id='fname' name='fname' onChange={handleChange} placeholder='First Name' />
+          <label htmlFor="firstName"><FaAlignJustify   className='icon' /></label>
+          <input type='text' id='firstName' name='firstName' onChange={handleChange} placeholder='First Name' />
         </div>
         <div className="entity">
-          <label htmlFor="lname"><FaAlignJustify   className='icon' /></label>
-          <input type='text' id='lname' name='lname' onChange={handleChange} placeholder='Last Name' />
+          <label htmlFor="lastName"><FaAlignJustify   className='icon' /></label>
+          <input type='text' id='lastName' name='lastName' onChange={handleChange} placeholder='Last Name' />
         </div>
         
         <div className="entity">
@@ -91,6 +103,10 @@ function Register() {
         <div className="entity">
           <label htmlFor="location"><FaLocationArrow  className='icon'/></label>
           <input type='text' id='location' name='location' onChange={handleChange} placeholder='Location' />
+        </div>
+        <div className="entity">
+          <label htmlFor="avatar"><IoPersonCircle   className='icon'/></label>
+          <input type='file' id='avatar' name='avatar'placeholder='Your Avatar' />
         </div>
         
         <button type='submit'>Register</button>

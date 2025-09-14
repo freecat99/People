@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import joi from 'joi'
+import z from 'zod';
 
 export const verifyToken = async(req, res, next) =>{
     try {
@@ -26,29 +26,32 @@ export const verifyToken = async(req, res, next) =>{
 }
 
 export const registerValidate = (req, res, next)=>{
-    const schema = joi.object({
-        firstName:joi.string().min(3).max(10).required(),
-        lastName:joi.string().min(3).max(10).required(),
-        email:joi.string().email().required(),
-        password:joi.string().min(8).max(50).required(),
+    const schema = z.object({
+        firstName:z.string().min(3).max(10),
+        lastName:z.string().min(3).max(10),
+        email:z.string().email(),
+        password:z.string().min(8).max(50),
+        occupation:z.string().min(4).max(20),
+        location:z.string().min(4).max(20),
+        picturePath: z.string().optional()
     });
     
-    const {error} = schema.validate(req.body);
-    if(error){
-        return res.status(400).json({message: 'Bad Request:', error})
+    const result = schema.safeParse(req.body);
+    if(!result.success){
+        return res.status(400).json({message: 'Bad Request:', error:result.error.errors})
     }
     next();
 }
 
 export const loginValidate = (req, res, next)=>{
-    const schema = joi.object({
-        email:joi.string().email().required(),
-        password:joi.string().min(8).max(50).required(),
+    const schema = z.object({
+        email:z.string().email(),
+        password:z.string().min(8).max(50)
     });
     
-    const {error} = schema.validate(req.body);
-    if(error){
-        return res.status(400).json({message: 'Bad Request:', error})
+    const result = schema.safeParse(req.body);
+    if(!result.success){
+        return res.status(400).json({message: 'Bad Request:', error:result.error.errors})
     }
     next();
 }
