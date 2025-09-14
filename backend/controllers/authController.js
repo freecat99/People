@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import User from '../models/userModel.js'
+import joi from 'joi'
+import { loginValidate } from '../middleware/authMiddleware.js';
 
 //register
 
@@ -41,7 +43,6 @@ export const login = async(req, res)=>{
         if(!email|| !password){
             return res.json({"message":"all fields necessary", success:false});
         }
-
         const user = await User.findOne({email});
         if(!user){
             return res.status(404).json({"message":"email not registered", success:false});
@@ -57,7 +58,7 @@ export const login = async(req, res)=>{
         delete user.password;
 
         res.status(200).json({
-            "message": "user logged",
+            message: "logged in successfully",
             token, success:true
         })
 

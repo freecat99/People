@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
+import {useNavigate} from 'react-router-dom'
 import { FaEnvelope, FaLock } from "react-icons/fa"
 import {Toaster} from 'sonner'
-import { handleFailure } from '../utils'
+import { handleFailure, handleSuccess } from '../utils'
 
 
 function Login() {
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState({
     email:'',
     password:''
@@ -33,9 +35,26 @@ function Login() {
       })
       const result = await response.json();
       console.log(result);
+      const{success, message, error, token} = result;
+
+      if(success){
+        handleSuccess(message);
+        localStorage.setItem('token', token);
+        setTimeout(()=>{
+          navigate('/posts')
+        },2000);
+
+      }else if(error){
+        handleFailure(error.details[0].message);
+
+      }else{
+        handleFailure(message);
+      }
+      
     } catch (error) {
       //correct
-      return handleFailure("Error:", error)
+      return handleFailure("something went wrong, please try again", error)
+
     }
   }
   
