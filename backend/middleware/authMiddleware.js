@@ -46,7 +46,7 @@ export const registerValidate = (req, res, next)=>{
 export const loginValidate = (req, res, next)=>{
     const schema = z.object({
         email:z.string().email(),
-        password:z.string().min(8).max(50)
+        password:z.string().min(8).max(50),
     });
     
     const result = schema.safeParse(req.body);
