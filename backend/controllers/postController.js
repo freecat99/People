@@ -7,7 +7,7 @@ export const createPost = async(req, res) =>{
     try {
 
         const {userId, description, picturePath} = req.body;
-        const user = User.findById(userId);
+        const user = await User.findById(userId);
         const newPost = new Post({
             userId,
             firstName: user.firstName,
@@ -56,9 +56,12 @@ export const getUserPosts = async(req, res)=>{
 
 export const likePost = async(req, res)=>{
     try {
+        console.log(10)
+        console.log("Request body:", req.body);
+
         const {id} = req.params;
         const {userId} = req.body;
-        const post = Post.findById(id);
+        const post = await Post.findById(id);
         const isLiked = post.likes.get(userId);
 
         if(isLiked){
