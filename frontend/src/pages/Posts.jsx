@@ -8,7 +8,6 @@ import { FaHeart } from "react-icons/fa";
 import { Toaster } from 'sonner';
 
 function Posts() {
-  const [like, setLike] = useState('Like');
   const [user, setUser] = useState('');
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
@@ -69,10 +68,8 @@ function Posts() {
       const liked = result.liked;
       if(liked){
         handleDefault('unliked!');
-        setLike('Like')
       }else{
         handleDefault('liked!');
-        setLike('Unlike')
       }
       setPosts(prevPosts =>prevPosts.map(post =>
           post._id === id ? result.updatedPost : post
@@ -93,7 +90,13 @@ function Posts() {
     
     <div className='posts'>
       <div className="postContainer">
-        {posts.map((post)=>(
+        {posts.map((post)=>{
+            const token = localStorage.getItem('token');
+            const payload = token ? JSON.parse(atob(token.split('.')[1])) : null;
+            const userId = payload?.id;
+
+            const isLiked = post.likes && post.likes[userId]; 
+        return(
             <div className="postCard" key={post._id}>
               <div className="cardTop">
                 <img src={`http://localhost:1601/assets/${post.userPicturePath}`} alt="avatar" />
@@ -109,7 +112,7 @@ function Posts() {
               </div>
               <div className="cardBottom">
                 <div className="likes">
-                  <div onClick={()=>handleLike(post._id)}>{like}</div>
+                  <div onClick={()=>handleLike(post._id)}>{isLiked?'Unlike':'Like'}</div>
                   <span>{Object.keys(post.likes).length}</span>
                 </div>
                 <ul>
@@ -122,7 +125,7 @@ function Posts() {
               </div>
             </div>
           )     
-        )}
+      })}
       </div>
       <button onClick={handleLogout}>Logout</button>
       <Toaster richColors/>
