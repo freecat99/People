@@ -116,6 +116,7 @@ function Posts() {
                   <span>{Object.keys(post.likes).length}</span>
                 </div>
                 <ul>
+                  <legend>Comments</legend>
                   {
                     post.comments.map((comment, i)=>(
                       <li key={i}>{comment}</li>

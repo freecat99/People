@@ -360,3 +360,12 @@ body{
     cursor: pointer
 
 }
+
+.cardBottom legend{
+    font-weight: 600;
+    margin: .2rem 0;
+}
+
+.cardBottom ul li{
+    margin: 0 1.2rem;
+}
