@@ -2,12 +2,13 @@ import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { handleFailure, handleSuccess } from '../utils';
+import { handleDefault, handleFailure, handleSuccess } from '../utils';
 import { FaHeart } from "react-icons/fa";
 
 import { Toaster } from 'sonner';
 
 function Posts() {
+  const [like, setLike] = useState('Like');
   const [user, setUser] = useState('');
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
@@ -27,6 +28,7 @@ function Posts() {
 
   const fetchPosts = async()=>{
     try {
+
       const url = 'http://localhost:1601/posts';
       const headers = {
         headers:{
@@ -49,24 +51,33 @@ function Posts() {
       const token = localStorage.getItem('token');
       const takenArray = token.split('.');
       const payload = JSON.parse(atob(takenArray[1]));
-
-      const userId = payload._id;
+      console.log("payload",payload);
+      const userId = payload.id;
+      console.log("her:",userId);
       
-      const url = `http://localhost:1601/posts/${id}/like`;
+      const url = `http://localhost:1601/posts/${id}/${userId}/like`;
       const headers = {
         method:'PATCH',
         headers:{
           'Authorization': localStorage.getItem('token'),
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({userId}),
+        }
       }
-      console.log("sa", userId)
       console.log(headers);
       const response = await fetch(url, headers);
       const result = await response.json();
-      console.log(result);
-
+      console.log("result",result);
+      const liked = result.liked;
+      if(liked){
+        handleDefault('unliked!');
+        setLike('Like')
+      }else{
+        handleDefault('liked!');
+        setLike('Unlike')
+      }
+      setPosts(prevPosts =>prevPosts.map(post =>
+          post._id === id ? result.updatedPost : post
+        )
+      );
 
     } catch (error) {
       handleFailure('Bad Request',error.message)
@@ -97,10 +108,10 @@ function Posts() {
                 
               </div>
               <div className="cardBottom">
-                <span className="likes">
-                  <button onClick={()=>handleLike(post._id)}>Likes: </button>
+                <div className="likes">
+                  <div onClick={()=>handleLike(post._id)}>{like}</div>
                   <span>{Object.keys(post.likes).length}</span>
-                  </span>
+                </div>
                 <ul>
                   {
                     post.comments.map((comment, i)=>(

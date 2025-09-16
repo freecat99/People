@@ -312,7 +312,8 @@ body{
 
 .cardMid img{
 
-    width: 100%;box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    width: 100%;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
     aspect-ratio: 4/3;
     object-fit: cover;
     object-position: center;
@@ -327,7 +328,7 @@ body{
     flex-direction: column;
     justify-content: space-around;
     gap: 1rem;
-
+    
 }
 
 .cardBottom .likes{
@@ -335,4 +336,27 @@ body{
     flex-direction: row;
     align-items: center;
     gap: .3rem;
+}
+
+.cardBottom .likes span{
+    font-size: 1.2rem;
+}
+
+.cardBottom .likes div{
+    background-color: red;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    outline: none;
+    padding: .4rem;
+    border-radius: 5px;
+    color: white;
+    width: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardBottom .likes div:hover{
+    cursor: pointer
+
 }
