@@ -70,10 +70,12 @@ function Profile() {
   },[])
 
   return (
-    <div>
+    <>
+    <div className='posts'>
       <Postcard posts={userPosts} handleLike={handleLike}/>
-      <Toaster/>
     </div>
+    <Toaster/>
+    </>
   )
 }
 

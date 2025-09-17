@@ -58,7 +58,7 @@ function Login() {
   
   return (
     <>
-    <div className="main">
+    <div className='authPage'>
     <div className='container'>
       <form onSubmit={handleSubmit}>
         <h2>Welcome Back!</h2>

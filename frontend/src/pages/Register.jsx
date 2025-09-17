@@ -84,10 +84,10 @@ function Register() {
   
   return (
     <>
-    <div className="main">
+    <div className='authPage'>
     <div className='container'>
       <form encType='multipart/form-data' onSubmit={handleSubmit}>
-        <h2>Welcome In!</h2>
+        <h2>Ahoy There!</h2>
         <div>
           <div className="entity">
             <input type='text' id='firstName' name='firstName' onChange={handleChange} placeholder='First Name' />

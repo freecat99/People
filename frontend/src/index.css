@@ -175,7 +175,9 @@ body, html{
     aspect-ratio: 1;
 }
 
-.main{
+.authPage{
+    width: 100%;
+    min-height: 100vh;
     background-image: url(../public/assets/authbg.png);
     background-repeat: no-repeat;
     background-position: center;
@@ -288,13 +290,21 @@ body, html{
 
 /* posts */
 
-.postContainer{
+.posts{
     width: 100%;
-    min-height: 100vh;
-    
+    background-color: black;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    align-items: center;
+}
+
+.postContainer{
+    border: 1px solid red;
+    width: 500px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
 }
 
 .postCard{
