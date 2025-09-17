@@ -14,13 +14,6 @@ body, html{
     height: 100%;
 }
 
-body{
-    background-image: url(../public/assets/authbg.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-}
-
 
 .navbar{
     width: 100%;
@@ -182,6 +175,13 @@ body{
     aspect-ratio: 1;
 }
 
+.main{
+    background-image: url(../public/assets/authbg.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
 .container{
     padding: 2rem;
     width: 400px;
@@ -306,6 +306,7 @@ body{
     border-radius: 5%;
 }
 
+
 .cardTop{
     height: 100px;
     display: flex;
@@ -332,6 +333,14 @@ body{
     font-weight: 600;
     display: flex;
     gap: .3rem;
+}
+
+.cardTop .userlink{
+    text-decoration: none;
+}
+
+.cardTop .userlink p:hover{
+    cursor: pointer;
 }
 
 .cardMid{

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { handleDefault, handleFailure, handleSuccess, handleLoading } from '../utils';
 import { Toaster, toast } from 'sonner';
+import Postcard from '../components/Postcard';
 
 function Posts() {
   const [posts, setPosts] = useState([]);
@@ -86,45 +87,7 @@ function Posts() {
   return (
     <>
     <div className='posts'>
-      <div className="postContainer">
-        {posts.map((post)=>{
-            const token = localStorage.getItem('token');
-            const payload = token ? JSON.parse(atob(token.split('.')[1])) : null;
-            const userId = payload?.id;
-
-            const isLiked = post.likes && post.likes[userId]; 
-        return(
-            <div className="postCard" key={post._id}>
-              <div className="cardTop">
-                <img src={`http://localhost:1601/assets/${post.userPicturePath}`} alt="avatar" />
-                <span className='username'>
-                  <p>{post.firstName}</p>
-                  <p>{post.lastName}</p>
-                </span>
-              </div>
-              <div className="cardMid">
-                <span className="description">{post.description}</span>
-                <img src={`http://localhost:1601/assets/${post.picturePath}`} alt="post" />
-                
-              </div>
-              <div className="cardBottom">
-                <div className="likes">
-                  <div onClick={()=>handleLike(post._id)}>{isLiked?'Unlike':'Like'}</div>
-                  <span>{Object.keys(post.likes).length}</span>
-                </div>
-                <ul>
-                  <legend>Comments</legend>
-                  {
-                    post.comments.map((comment, i)=>(
-                      <li key={i}>{comment}</li>
-                    ))
-                  }
-                </ul>
-              </div>
-            </div>
-          )     
-      })}
-      </div>
+      <Postcard posts={posts} handleLike={handleLike} />
       <button onClick={handleLogout}>Logout</button>
     </div>
       <Toaster richColors/>

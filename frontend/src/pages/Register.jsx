@@ -84,6 +84,7 @@ function Register() {
   
   return (
     <>
+    <div className="main">
     <div className='container'>
       <form encType='multipart/form-data' onSubmit={handleSubmit}>
         <h2>Welcome In!</h2>
@@ -116,6 +117,7 @@ function Register() {
         <button type='submit'>Register</button>
         <span><a href='/login'>Already have an account?</a></span>
       </form>
+    </div>
     </div>
       <Toaster richColors/>
     </>

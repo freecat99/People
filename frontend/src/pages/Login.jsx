@@ -58,6 +58,7 @@ function Login() {
   
   return (
     <>
+    <div className="main">
     <div className='container'>
       <form onSubmit={handleSubmit}>
         <h2>Welcome Back!</h2>
@@ -70,6 +71,7 @@ function Login() {
         <button type='submit'>Login</button>
         <span><a href='/register'>Don't have an account?</a></span>
       </form>
+    </div>
     </div>
       <Toaster richColors/>
     </>
