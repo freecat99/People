@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import {useNavigate} from 'react-router-dom'
-import { FaEnvelope, FaLock } from "react-icons/fa"
 import {Toaster} from 'sonner'
 import { handleFailure, handleSuccess } from '../utils'
 
@@ -34,7 +33,6 @@ function Login() {
         body: JSON.stringify(userInfo)
       })
       const result = await response.json();
-      console.log(result);
       const{success, message, error, token} = result;
 
       if(success){
@@ -64,18 +62,16 @@ function Login() {
       <form onSubmit={handleSubmit}>
         <h2>Welcome Back!</h2>
         <div className="entity">
-          <label htmlFor="email"><FaEnvelope className='icon' /></label>
           <input type='email' id='email' name='email' onChange={handleChange} placeholder='Email' />
         </div>
         <div className="entity">
-          <label htmlFor="password"><FaLock className='icon' /></label>
           <input type='password' id='password' name='password' onChange={handleChange} placeholder='Password' />
         </div>
         <button type='submit'>Login</button>
         <span><a href='/register'>Don't have an account?</a></span>
       </form>
-      <Toaster richColors/>
     </div>
+      <Toaster richColors/>
     </>
   )
 }

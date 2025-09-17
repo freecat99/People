@@ -37,7 +37,6 @@ function Register() {
     }
 
 
-    console.log(userInfo);
     const {email, password, firstName, lastName} = userInfo;
     if(!email || !password || !firstName || !lastName){
       return handleFailure("all fields required")
@@ -49,7 +48,7 @@ function Register() {
         body: formData
       })
       const result = await response.json();
-      console.log(result);
+      console.log(result)
       const{success, message, error} = result;
 
       if(success){
@@ -59,14 +58,25 @@ function Register() {
         },2000); 
 
       }else if(error){
-        handleFailure(error.details[0].message);
+        
+  try {
+    // error.error.message is a string like "[ {...}, {...} ]"
+    const parsedErrors = JSON.parse(error.error.message);
+
+    if (Array.isArray(parsedErrors)) {
+      parsedErrors.forEach(err => handleFailure(err.message));
+    } else {
+      handleFailure("Validation failed");
+    }
+  } catch (e) {
+    handleFailure(error.error.message || "Validation failed");
+  }
 
       }else{
         handleFailure(message);
       }
       
     } catch (error) {
-      //correct
       return handleFailure("something went wrong, please try again", error)
 
     }
@@ -106,8 +116,8 @@ function Register() {
         <button type='submit'>Register</button>
         <span><a href='/login'>Already have an account?</a></span>
       </form>
-      <Toaster richColors/>
     </div>
+      <Toaster richColors/>
     </>
   )
 }

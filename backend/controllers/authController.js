@@ -9,7 +9,7 @@ import { loginValidate } from '../middleware/authMiddleware.js';
 export const register = async(req, res)=>{
     try {
         const {firstName, lastName, email, password, friends, location, occupation} = req.body;
-        const picturePath = req.file.avatar;
+        const picturePath = req.file ? req.file.filename : null;
         if(!firstName || !lastName || !email|| !password){
             return res.json({message:"fields necessary", success:false});
         }
@@ -64,6 +64,7 @@ export const login = async(req, res)=>{
         })
 
     } catch (error) {
+        console.log("err",error)
         res.status(500).json({"message":error.message, success:false})
     }
 }

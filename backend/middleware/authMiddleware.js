@@ -28,18 +28,18 @@ export const verifyToken = async(req, res, next) =>{
 
 export const registerValidate = (req, res, next)=>{
     const schema = z.object({
-        firstName:z.string().min(3).max(10),
-        lastName:z.string().min(3).max(10),
+        firstName:z.string().min(3,{message:"first name must be atleast 3 characters"}).max(20),
+        lastName:z.string().min(3,{message:"last name must be atleast 3 characters"}).max(20),
         email:z.string().email(),
-        password:z.string().min(8).max(50),
-        occupation:z.string().min(4).max(20),
-        location:z.string().min(4).max(20),
+        password:z.string().min(8,{message:"password must be atleast 8 characters"}).max(50),
+        occupation:z.string().min(4,{message:"occupation must be atleast 4 characters"}).max(20),
+        location:z.string().min(4,{message:"location must be atleast 4 characters"}).max(20),
         picturePath: z.string().optional()
     });
     
     const result = schema.safeParse(req.body);
     if(!result.success){
-        return res.status(400).json({message: 'Bad Request:', error:result.error.errors})
+        return res.status(400).json({message: 'Bad Request:', error:result})
     }
     next();
 }
