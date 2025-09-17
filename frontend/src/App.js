@@ -5,6 +5,7 @@ import Profile from './pages/Profile'
 import 'react-toastify/ReactToastify.css'
 import Register from './pages/Register'
 import Posts from './pages/Posts'
+import NotFound from './pages/NotFound'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Route path='/register' element={<Register/>}/>
       <Route path='/profile/:userId' element={<Profile/>}/>
       <Route path='/posts' element={<Posts/>}/>
+      <Route path='/*' element={<NotFound/>}/>
     </Routes>
     </BrowserRouter>
   );

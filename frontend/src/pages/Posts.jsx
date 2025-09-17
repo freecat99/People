@@ -2,13 +2,10 @@ import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { handleDefault, handleFailure, handleSuccess } from '../utils';
-import { FaHeart } from "react-icons/fa";
-
-import { Toaster } from 'sonner';
+import { handleDefault, handleFailure, handleSuccess, handleLoading } from '../utils';
+import { Toaster, toast } from 'sonner';
 
 function Posts() {
-  const [user, setUser] = useState('');
   const [posts, setPosts] = useState([]);
   const navigate = useNavigate();
 
@@ -34,10 +31,13 @@ function Posts() {
           'Authorization': localStorage.getItem('token')
         }
       }
+      const loading= handleLoading('loading...');
       const response = await fetch(url, headers);
+  
       const result = await response.json();
       setPosts(result);
-    
+      toast.dismiss(loading);
+              
     } catch (error) {
       handleFailure(error.message);
     }
@@ -50,9 +50,7 @@ function Posts() {
       const token = localStorage.getItem('token');
       const takenArray = token.split('.');
       const payload = JSON.parse(atob(takenArray[1]));
-      console.log("payload",payload);
       const userId = payload.id;
-      console.log("her:",userId);
       
       const url = `http://localhost:1601/posts/${id}/${userId}/like`;
       const headers = {
@@ -87,7 +85,6 @@ function Posts() {
 
   return (
     <>
-    
     <div className='posts'>
       <div className="postContainer">
         {posts.map((post)=>{
@@ -129,8 +126,8 @@ function Posts() {
       })}
       </div>
       <button onClick={handleLogout}>Logout</button>
-      <Toaster richColors/>
     </div>
+      <Toaster richColors/>
     </>
   )
 }

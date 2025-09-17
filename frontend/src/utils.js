@@ -2,19 +2,25 @@ import { toast } from "sonner"
 
 export const handleSuccess = (mssg)=>{
     toast.success(mssg, {
-        postion: 'top-right'
+        position: 'bottom-right'
     })
 }
 
 export const handleFailure = (mssg)=>{
     toast.error(mssg, {
-        postion: 'top-right'
+        position: 'bottom-right'
     })
 }
 
 export const handleDefault = (mssg)=>{
     toast(mssg, {
-        postion: 'top-right'
+        position: 'bottom-right'
+    })
+}
+
+export const handleLoading = (mssg)=>{
+    return toast.loading(mssg, {
+        position: 'bottom-right'
     })
 }
 

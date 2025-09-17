@@ -14,11 +14,6 @@ body, html{
     height: 100%;
 }
 
-body{
-    background-image: url(../public/assets/aboutbg.png);
-
-
-}
 
 .navbar{
     width: 100vw;
@@ -26,13 +21,13 @@ body{
     position: sticky;
     top: 0;
     height: 10vh;
-
+    
     background-color: black;
     color: white;
-
+    
     display: flex;
     flex-direction: row;
-
+    
     align-items: center;
     justify-content: space-between;
     padding: 1rem;
@@ -66,12 +61,14 @@ body{
     
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
     padding: 2rem;
-
+    
     display: flex;
     justify-content: space-between;
     align-items: top;    
 
     position: relative;
+    background-image: url(../public/assets/aboutbg.png);
+    background-color: #0b3677;
 }
 
 .about p{
@@ -168,7 +165,7 @@ body{
     background-color: #0b3677;
     color: white;
     font-weight: 500;
-
+    
     box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 }
 
@@ -184,7 +181,7 @@ body{
     background-color: black;
     font-size: 1rem;
     color: white;
-
+    
     display: flex;
     justify-content: center;
 }
@@ -280,8 +277,8 @@ body{
 }
 
 .cardTop img{
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    aspect-ratio: 1;
     object-fit: cover;
     object-position: center;
     border-radius: 50%;
@@ -318,7 +315,7 @@ body{
     object-fit: cover;
     object-position: center;
     border-radius: 1%;
-
+    
 }
 
 .cardBottom{
@@ -368,4 +365,34 @@ body{
 
 .cardBottom ul li{
     margin: 0 1.2rem;
+}
+
+
+.notFound{
+    width: 100%;
+    height: 100vh;
+    background-color: black;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    padding: 5rem;
+
+}
+
+.notFound span{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.notFound h1{
+    font-size: 10rem;
+}   
+
+
+.notFound h3{
+    font-size: 3rem;
+    font-weight: 600;
+    letter-spacing: -3px;
 }

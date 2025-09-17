@@ -18,7 +18,7 @@ function About() {
           <img src="/assets/nitin.png" alt="Nitin" className='card2' />
           <img src="/assets/tashi.png" alt="Tashi" className='card3' />
         </div>
-        <button className="makeProfile" onClick={()=>navigate('/')}>Make your profile now!</button>
+        <button className="makeProfile" onClick={()=>navigate('/register')}>Make your profile now!</button>
       </div>
     </div>
   )
