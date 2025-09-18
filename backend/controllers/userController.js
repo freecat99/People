@@ -5,7 +5,7 @@ import User from "../models/userModel.js";
 export const getUser = async(req, res)=>{
     try {
         const id = req.params.id;
-        const user = await User.findById({id});
+        const user = await User.findById(id);
         res.status(200).json(user);
 
     } catch (error) {
@@ -16,13 +16,20 @@ export const getUser = async(req, res)=>{
 export const getFriends = async(req, res)=>{
     try {
         const id = req.params.id;
-        const user = await User.findById({id});
+        const user = await User.findById(id);
  
         const friends = await Promise.all(
             user.friends.map((id) => User.findById(id))
         );
+        const friendList = friends.map(({ _id, firstName, lastName, occupation, location, picturePath }) => ({
+            id: _id,
+            firstName,
+            lastName,
+            occupation,
+            location,
+            picturePath
+            }));
 
-        const friendList = friends.map({_id, firstName, lastName, occupation, location, picturePath});
         res.status(200).json(friendList);
 
     } catch (error) {
@@ -41,8 +48,8 @@ export const toggleFriend = async(req, res)=>{
         let wasFriend = false;
 
         if(user.friends.includes(friendId)){
-            user.friends = user.friends.filter((id) => id!==friendId);
-            friend.friends = friend.friends.filter((id) => id!==id);
+            user.friends = user.friends.filter(fid => fid.toString() !== friendId.toString());
+            friend.friends = friend.friends.filter(fid => fid.toString() !== id.toString());
             wasFriend = true;
             
         }else{

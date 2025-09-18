@@ -8,11 +8,11 @@ function Postcard({ posts, handleLike, handleFriend, friends }) {
     <div className="postContainer">
       {posts.map((post) => {
         const token = localStorage.getItem('token');
-        const payload = token ? JSON.parse(atob(token.split('.')[1])) : null;
+        const payload = JSON.parse(atob(token.split('.')[1]));
         const userId = payload?.id;
 
         const isLiked = post.likes && post.likes[userId];
-        const isFriend = friends?.includes(post.userId); 
+        const isFriend = friends?.some((f)=>f.id === post.userId); 
 
         return (
           <div className="postCard" key={post._id}>

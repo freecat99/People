@@ -1,127 +1,126 @@
-import React from 'react'
-import { useEffect } from 'react';
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { handleDefault, handleFailure, handleSuccess, handleLoading } from '../utils';
 import { Toaster, toast } from 'sonner';
 import Postcard from '../components/Postcard';
+import NavbarLogout from '../components/NavbarLogout';
 
 function Posts() {
   const [posts, setPosts] = useState([]);
-  const [friend, setFriend] = useState([]);
-
+  const [friends, setFriends] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(()=>{
+  const token = localStorage.getItem('token');
+  const payload = JSON.parse(atob(token.split('.')[1]));
+  const user = payload.name;
 
-    
-  },[]);
-  
-  const handleLogout = () =>{
-    handleSuccess('logged out successfully');
-    localStorage.removeItem('token');
-    setTimeout(()=>{
-      navigate('/login');
-    },2000)
-  }
-
-  const fetchPosts = async()=>{
+  const fetchPosts = async () => {
     try {
-
       const url = 'http://localhost:1601/posts';
       const headers = {
-        headers:{
-          'Authorization': localStorage.getItem('token')
-        }
-      }
-      const loading= handleLoading('loading...');
+        headers: {
+          Authorization: localStorage.getItem('token'),
+        },
+      };
+      const loading = handleLoading('loading...');
       const response = await fetch(url, headers);
-  
       const result = await response.json();
       setPosts(result);
-      setFriend(result.friends)
       toast.dismiss(loading);
-              
     } catch (error) {
       handleFailure(error.message);
     }
-    
-  }
+  };
 
-  const handleLike = async(id)=>{
+  const fetchFriends = async () => {
     try {
-
       const token = localStorage.getItem('token');
-      const tokenArray = token.split('.');
-      const payload = JSON.parse(atob(tokenArray[1]));
+      const payload = JSON.parse(atob(token.split('.')[1]));
       const userId = payload.id;
-      
-      const url = `http://localhost:1601/posts/${id}/${userId}/like`;
+
+      const url = `http://localhost:1601/user/${userId}/friends`;
       const headers = {
-        method:'PATCH',
-        headers:{
-          'Authorization': localStorage.getItem('token'),
-        }
-      }
-      console.log(headers);
+        headers: {
+          Authorization: token,
+        },
+      };
       const response = await fetch(url, headers);
       const result = await response.json();
-      console.log("result",result);
+      setFriends(result);
+    } catch (error) {
+      handleFailure(error.message);
+    }
+  };
+
+  const handleLike = async (id) => {
+    try {
+      const token = localStorage.getItem('token');
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const userId = payload.id;
+      const url = `http://localhost:1601/posts/${id}/${userId}/like`;
+      const headers = {
+        method: 'PATCH',
+        headers: {
+          Authorization: token,
+        },
+      };
+      const response = await fetch(url, headers);
+      const result = await response.json();
       const liked = result.liked;
-      if(liked){
+      if (liked) {
         handleDefault('unliked!');
-      }else{
+      } else {
         handleDefault('liked!');
       }
-      setPosts(prevPosts =>prevPosts.map(post =>
+      setPosts((prevPosts) =>
+        prevPosts.map((post) =>
           post._id === id ? result.updatedPost : post
         )
       );
-
     } catch (error) {
-      handleFailure('Bad Request',error.message)
+      handleFailure('Bad Request', error.message);
     }
-  }
+  };
 
-  const handleFriend = async(friendId) =>{
+  const handleFriend = async (friendId) => {
     try {
       const token = localStorage.getItem('token');
-      const tokenArray = token.split('.');
-      const payload = JSON.parse(atob(tokenArray[1]));
+      const payload = JSON.parse(atob(token.split('.')[1]));
       const userId = payload.id;
-
       const url = `http://localhost:1601/user/${userId}/${friendId}`;
       const headers = {
         method: 'PATCH',
-        headers:{
-          'Authorization': token
-        }
-      }
-      
+        headers: {
+          Authorization: token,
+        },
+      };
       const response = await fetch(url, headers);
       const result = await response.json();
-      
-      console.log(result);
-      setFriend(result.updatedFriends);
-
+      setFriends(result.friendList);
     } catch (error) {
       handleFailure(error.message);
     }
-  }
-  
-  useEffect(()=>{
+  };
+
+  useEffect(() => {
     fetchPosts();
-  },[])
+    fetchFriends();
+  }, []);
 
   return (
-    <>
-    <div className='posts'>
-      <Postcard posts={posts} handleLike={handleLike} handleFriend={handleFriend} friends={friend}/>
-      <button onClick={handleLogout}>Logout</button>
+    <div className="postPage">
+      <NavbarLogout user={user}/>
+      <div className="posts">
+        <Postcard
+          posts={posts}
+          handleLike={handleLike}
+          handleFriend={handleFriend}
+          friends={friends}
+        />
+      </div>
+      <Toaster richColors />
     </div>
-      <Toaster richColors/>
-    </>
-  )
+  );
 }
 
-export default Posts
+export default Posts;

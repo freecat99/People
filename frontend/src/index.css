@@ -37,11 +37,11 @@ body, html{
     font-size: 1rem;
     font-weight: 500;
     margin: .2rem;
-    background-color: #2a7aef;
-    color: black;
+    background-color: transparent;
+    color: white;
     padding: .2rem;
     border-radius: 10px;
-    border: none;
+    border: 2px solid rgb(255, 255, 255);
 
     transition: all .2s ease;
 }
@@ -292,14 +292,14 @@ body, html{
 
 .posts{
     width: 100%;
-    background-color: black;
+    background-color: rgb(24, 24, 24);
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .postContainer{
-    border: 1px solid red;
+    margin: 1rem;
     width: 500px;
     display: flex;
     align-items: center;

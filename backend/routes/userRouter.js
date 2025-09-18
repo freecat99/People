@@ -7,7 +7,7 @@ const userRouter = express.Router();
 
 //read request
 userRouter.get('/:id', verifyToken, getUser);
-userRouter.get('/:id', verifyToken, getFriends);
+userRouter.get('/:id/friends', verifyToken, getFriends);
 
 
 //update
