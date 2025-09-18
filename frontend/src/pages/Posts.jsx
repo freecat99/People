@@ -8,6 +8,8 @@ import Postcard from '../components/Postcard';
 
 function Posts() {
   const [posts, setPosts] = useState([]);
+  const [friend, setFriend] = useState([]);
+
   const navigate = useNavigate();
 
   useEffect(()=>{
@@ -37,6 +39,7 @@ function Posts() {
   
       const result = await response.json();
       setPosts(result);
+      setFriend(result.friends)
       toast.dismiss(loading);
               
     } catch (error) {
@@ -49,8 +52,8 @@ function Posts() {
     try {
 
       const token = localStorage.getItem('token');
-      const takenArray = token.split('.');
-      const payload = JSON.parse(atob(takenArray[1]));
+      const tokenArray = token.split('.');
+      const payload = JSON.parse(atob(tokenArray[1]));
       const userId = payload.id;
       
       const url = `http://localhost:1601/posts/${id}/${userId}/like`;
@@ -80,6 +83,32 @@ function Posts() {
     }
   }
 
+  const handleFriend = async(friendId) =>{
+    try {
+      const token = localStorage.getItem('token');
+      const tokenArray = token.split('.');
+      const payload = JSON.parse(atob(tokenArray[1]));
+      const userId = payload.id;
+
+      const url = `http://localhost:1601/user/${userId}/${friendId}`;
+      const headers = {
+        method: 'PATCH',
+        headers:{
+          'Authorization': token
+        }
+      }
+      
+      const response = await fetch(url, headers);
+      const result = await response.json();
+      
+      console.log(result);
+      setFriend(result.updatedFriends);
+
+    } catch (error) {
+      handleFailure(error.message);
+    }
+  }
+  
   useEffect(()=>{
     fetchPosts();
   },[])
@@ -87,7 +116,7 @@ function Posts() {
   return (
     <>
     <div className='posts'>
-      <Postcard posts={posts} handleLike={handleLike} />
+      <Postcard posts={posts} handleLike={handleLike} handleFriend={handleFriend} friends={friend}/>
       <button onClick={handleLogout}>Logout</button>
     </div>
       <Toaster richColors/>

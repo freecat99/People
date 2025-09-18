@@ -36,14 +36,17 @@ export const getFriends = async(req, res)=>{
 export const toggleFriend = async(req, res)=>{
     try {
         const {id, friendId} = req.params;
-        const user = User.findById({id});
-        const friend = User.findById({id});
+        const user = await User.findById(id);
+        const friend = await User.findById(friendId);
+        let wasFriend = false;
 
-        if(user.friends.include(friendId)){
+        if(user.friends.includes(friendId)){
             user.friends = user.friends.filter((id) => id!==friendId);
             friend.friends = friend.friends.filter((id) => id!==id);
+            wasFriend = true;
+            
         }else{
-            user.friends.push(id);
+            user.friends.push(friendId);
             friend.friends.push(id);
         }
 
@@ -53,9 +56,15 @@ export const toggleFriend = async(req, res)=>{
         const friends = await Promise.all(
             user.friends.map((id) => User.findById(id))
         );
-
-        const friendList = friends.map({_id, firstName, lastName, occupation, location, picturePath});
-        res.status(200).json(friendList);
+        const friendList = friends.map(({ _id, firstName, lastName, occupation, location, picturePath }) => ({
+            id:_id,
+            firstName,
+            lastName,
+            occupation,
+            location,
+            picturePath,
+            }));
+        res.status(200).json({friendList, 'wasFriend':wasFriend});
         
     } catch (error) {
         return res.status(500).json({"message": error.message}) 
