@@ -4,6 +4,7 @@ import { handleDefault, handleFailure, handleSuccess, handleLoading } from '../u
 import { Toaster, toast } from 'sonner';
 import Postcard from '../components/Postcard';
 import NavbarLogout from '../components/NavbarLogout';
+import Create from '../components/Create';
 
 function Posts() {
   const [posts, setPosts] = useState([]);
@@ -117,6 +118,7 @@ function Posts() {
           handleFriend={handleFriend}
           friends={friends}
         />
+        <Create/>
       </div>
       <Toaster richColors />
     </div>

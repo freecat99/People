@@ -9,7 +9,7 @@ import { loginValidate } from '../middleware/authMiddleware.js';
 export const register = async(req, res)=>{
     try {
         const {firstName, lastName, email, password, friends, location, occupation} = req.body;
-        const picturePath = req.file ? req.file.filename : null;
+        const picturePath = req.file ? req.file.filename : 'default.jpeg';
         if(!firstName || !lastName || !email|| !password){
             return res.json({message:"fields necessary", success:false});
         }
@@ -55,7 +55,7 @@ export const login = async(req, res)=>{
             return res.status(401).json({"message":"wrong password", success:false});
         }
 
-        const token = jwt.sign({id:user._id, name:user.firstName, email: user.email}, process.env.JWT_SECRET, {expiresIn:'24h'});
+        const token = jwt.sign({id:user._id, name:user.firstName, email: user.email, photo: user.picturePath}, process.env.JWT_SECRET, {expiresIn:'24h'});
         delete user.password;
 
         res.status(200).json({
