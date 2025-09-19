@@ -20,7 +20,6 @@ function NavbarLogout({user}) {
         <p>People</p>
       </div>
       <div className="right">
-        <button >{user}</button>
         <button onClick={handleLogout}>Logout</button>
       </div>
     </div>

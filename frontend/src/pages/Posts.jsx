@@ -9,6 +9,7 @@ import Create from '../components/Create';
 function Posts() {
   const [posts, setPosts] = useState([]);
   const [friends, setFriends] = useState([]);
+  const [postRefresh, setPostRefresh] = useState(0);
   const navigate = useNavigate();
 
   const token = localStorage.getItem('token');
@@ -102,11 +103,15 @@ function Posts() {
       handleFailure(error.message);
     }
   };
+  
+  const isPostRefresh =()=>{
+    setPostRefresh(postRefresh+1);
+  }
 
   useEffect(() => {
     fetchPosts();
     fetchFriends();
-  }, []);
+  }, [postRefresh]);
 
   return (
     <div className="postPage">
@@ -118,7 +123,7 @@ function Posts() {
           handleFriend={handleFriend}
           friends={friends}
         />
-        <Create/>
+        <Create isPostRefresh={isPostRefresh}/>
       </div>
       <Toaster richColors />
     </div>

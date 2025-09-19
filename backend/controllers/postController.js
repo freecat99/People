@@ -6,7 +6,9 @@ import Post from '../models/postModel.js';
 export const createPost = async(req, res) =>{
     try {
 
-        const {userId, description, picturePath} = req.body;
+        const {userId, description} = req.body;
+        const picturePath = req.file ? req.file.filename : 'default.jpeg';
+
         const user = await User.findById(userId);
         const newPost = new Post({
             userId,
@@ -18,14 +20,13 @@ export const createPost = async(req, res) =>{
             likes:{},
             comments:[]
         });
-        await newPost.save();
 
-        const post = await Post.find();
-        res.status(201).json({"message":"posted successfully", post});
+        const post = await newPost.save();
+        res.status(201).json({"message":"posted successfully", post, success:true});
 
         
     } catch (error) {
-        res.status(409).json({"message":error.message});
+        res.status(409).json({"message":error.message, success:false});
     }
 };
 

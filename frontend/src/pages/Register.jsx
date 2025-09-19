@@ -48,7 +48,6 @@ function Register() {
         body: formData
       })
       const result = await response.json();
-      console.log(result)
       const{success, message, error} = result;
 
       if(success){
